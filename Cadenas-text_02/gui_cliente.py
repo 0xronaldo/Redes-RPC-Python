@@ -24,7 +24,7 @@ class CadenasGUI(tk.Tk):
         tk.Entry(self, textvariable=self.port_var, width=8).grid(row=row, column=3, padx=8, pady=6)
 
         row += 1
-        ttk.Combobox(self, textvariable=self.mode_var, values=["upper", "lower"], width=12).grid(row=row, column=0, columnspan=2, padx=8, pady=6)
+        ttk.Combobox(self, textvariable=self.mode_var, values=["mayuscula", "minuscula"], width=12).grid(row=row, column=0, columnspan=2, padx=8, pady=6)
         tk.Entry(self, textvariable=self.input_var, width=30).grid(row=row, column=2, columnspan=2, padx=8, pady=6)
 
         row += 1
@@ -40,7 +40,7 @@ class CadenasGUI(tk.Tk):
         proxy = xmlrpc.client.ServerProxy(url, allow_none=True)
         text = self.input_var.get()
         mode = self.mode_var.get()
-        if mode == "mayus":
+        if mode == "mayuscula":
             res = proxy.func_mayusculas(text)
         else:
             res = proxy.func_minusculas(text)
