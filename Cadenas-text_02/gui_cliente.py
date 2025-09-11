@@ -13,7 +13,7 @@ class CadenasGUI(tk.Tk):
 
         self.host_var = tk.StringVar(value="192.168.100.37")
         self.port_var = tk.StringVar(value="9200")
-        self.mode_var = tk.StringVar(value="upper")
+        self.mode_var = tk.StringVar(value="mayuscula")
         self.input_var = tk.StringVar()
         self.output_var = tk.StringVar(value="→ Resultado aquí")
 

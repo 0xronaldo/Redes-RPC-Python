@@ -6,6 +6,11 @@
 from xmlrpc.server import SimpleXMLRPCServer
 from xmlrpc.server import SimpleXMLRPCRequestHandler
 
+
+
+IP_SERVIDOR = "192.168.100.37"
+PORT = 9200
+
 # Cálculo iterativo para evitar límites de recursión
 def factorial(n: int) -> int:
     if not isinstance(n, int):
@@ -17,23 +22,19 @@ def factorial(n: int) -> int:
         r *= i
     return r
 
-class RequestHandler(SimpleXMLRPCRequestHandler):
-    rpc_paths = ("/RPC2",)
 
-def main():
-    host = "127.0.0.1"
-    port = 9200
-    with SimpleXMLRPCServer((host, port), requestHandler=RequestHandler, allow_none=True, logRequests=True) as server:
+def run_srv():
+    with SimpleXMLRPCServer((IP_SERVIDOR, PORT), allow_none=True, logRequests=True) as server:
         server.register_introspection_functions()
         server.register_function(factorial, "factorial")
-        print(f"[SERVIDOR] XML-RPC escuchando en http://{host}:{port}/RPC2")
+        print(f"[SERVIDOR] XML-RPC escuchando en http://{IP_SERVIDOR}:{PORT}/")
         try:
             server.serve_forever()
         except KeyboardInterrupt:
             print("\n[SERVIDOR] Detenido por usuario")
 
 if __name__ == "__main__":
-    main()
+    run_srv()
 
 
     

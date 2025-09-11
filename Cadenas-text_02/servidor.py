@@ -8,7 +8,7 @@
 
 
 from xmlrpc.server import SimpleXMLRPCServer, SimpleXMLRPCRequestHandler
-
+import time
 
 IP_SERVER = "192.168.100.37"
 PORT = 9200
@@ -19,14 +19,14 @@ def func_mayusculas(s: str) -> str:
 def func_minusculas(s: str) -> str:
 	return str(s).lower()
 
-def main():
+def run_server():
+	print("[SERVIDOR] Procesando...")
+	time.sleep(0.5)
 
-	with SimpleXMLRPCServer((IP_SERVER, PORT), requestHandler=RequestHandler, allow_none=True, logRequests=True) as server:
+	with SimpleXMLRPCServer((IP_SERVER, PORT), allow_none=True, logRequests=True) as server:
 		server.register_introspection_functions()
-		server.register_function(func_mayusculas, "mayus")
-		server.register_function(func_minusculas, "minus")
-        print(f'[SERVIDOR] Procesando....')
-        sleep(0.5)
+		server.register_function(func_mayusculas, 'func_mayusculas')
+		server.register_function(func_minusculas, 'func_minusculas')
 		print(f"[SERVIDOR] escuchando en http://{IP_SERVER}:{PORT}/")
 		try:
 			server.serve_forever()
@@ -34,4 +34,4 @@ def main():
 			print("\nDetenido.")
 
 if __name__ == "__main__":
-	main()
+	run_server()

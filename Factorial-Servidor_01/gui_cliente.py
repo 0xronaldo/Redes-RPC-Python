@@ -35,8 +35,8 @@ class FactorialGUI(tk.Tk):
             port = int(self.port_var.get())
             n = int(self.n_var.get())
             if n < 0:
-                raise ValueError("El número debe ser no negativo")
-            url = f"http://{host}:{port}/RPC2"
+                raise ValueError("El numero debe ser no negativo")
+            url = f"http://{host}:{port}/"
             proxy = xmlrpc.client.ServerProxy(url, allow_none=True)
             r = proxy.factorial(n)
             self.result_var.set(f"Resultado: {r}")
