@@ -1,30 +1,39 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
+# Autor: Equipo de práctica
+# Fecha: 10/09/25
+# Servidor RPC (XML-RPC) para calcular factorial
 
-# Autor: Brayan Sanchez
-# Fecha: 07/09/25
-# Desarrollo del servidor
-# Crea un servicio RPC que exponga una función para calcular el factorial de un 
-# :: * número enviado por el cliente. 
+from xmlrpc.server import SimpleXMLRPCServer
+from xmlrpc.server import SimpleXMLRPCRequestHandler
 
-import socket
-import json 
+# Cálculo iterativo para evitar límites de recursión
+def factorial(n: int) -> int:
+    if not isinstance(n, int):
+        raise ValueError("n debe ser entero")
+    if n < 0:
+        raise ValueError("n debe ser no negativo")
+    r = 1
+    for i in range(2, n + 1):
+        r *= i
+    return r
 
-def facto(x):
-    if ( x == 0 or x == 1 ):
-        return 1
-    else:
-        return x * facto(x - 1)
+class RequestHandler(SimpleXMLRPCRequestHandler):
+    rpc_paths = ("/RPC2",)
 
-print(facto(10))
+def main():
+    host = "127.0.0.1"
+    port = 9200
+    with SimpleXMLRPCServer((host, port), requestHandler=RequestHandler, allow_none=True, logRequests=True) as server:
+        server.register_introspection_functions()
+        server.register_function(factorial, "factorial")
+        print(f"[SERVIDOR] XML-RPC escuchando en http://{host}:{port}/RPC2")
+        try:
+            server.serve_forever()
+        except KeyboardInterrupt:
+            print("\n[SERVIDOR] Detenido por usuario")
 
-# switch 
-#if __name__ == "__main__":
-    
-#    SERVIDOR_IP = "127.0.0.1"
-#    SERVIDOR_PORT = 9200
-
-    # CREACION DEL SOCKET 
-#    servidor_base = socket.socket( socket.AF_INET, socket.SOCK_STREAM)
+if __name__ == "__main__":
+    main()
 
 
     
